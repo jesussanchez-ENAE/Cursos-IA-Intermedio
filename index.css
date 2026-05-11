@@ -49,9 +49,10 @@ body {
 h1, h2, h3, h4 {
     font-family: var(--font-heading);
     text-transform: uppercase;
-    letter-spacing: -0.04em;
+    letter-spacing: -0.015em;
     font-weight: 900;
-    line-height: 1.1;
+    line-height: 1.2;
+    margin-bottom: 1rem;
 }
 
 .container {
@@ -220,6 +221,50 @@ h1, h2, h3, h4 {
     background: #ffffff !important;
     border: 1px solid rgba(0, 0, 0, 0.08) !important;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 0.5rem;
+}
+
+.tool-logo {
+    height: 40px;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.tool-logo-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    height: 40px;
+    margin-bottom: 1rem;
+}
+
+.tool-logo-row img {
+    height: 100%;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.tool-logo-row .separator {
+    color: rgba(0, 0, 0, 0.15);
+    font-size: 1.2rem;
+    font-weight: 300;
+}
+
+.tool-emoji {
+    font-size: 2.2rem;
+    height: 40px;
+    line-height: 40px;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
 }
 
 .tool-card h3 {
@@ -352,9 +397,10 @@ h1, h2, h3, h4 {
 
 /* Typography Gradient */
 .text-gradient {
-    background: linear-gradient(to bottom, #fff 0%, #888 100%);
+    background: linear-gradient(to bottom, #ffffff 0%, #b3b3b3 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0px 4px 12px rgba(0, 0, 0, 0.3));
 }
 
 /* Section Spacing */
@@ -711,21 +757,234 @@ footer {
     }
 
     .hero-buttons {
-        flex-direction: column;
-        gap: 1rem;
-        align-items: center;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 1rem !important;
+        align-items: center !important;
     }
 
     .hero-buttons .btn,
-    .hero-buttons .hero-link {
-        width: 100%;
-        text-align: center;
-        justify-content: center;
+    .hero-buttons a {
+        width: 100% !important;
+        text-align: center !important;
+        justify-content: center !important;
+    }
+
+    .accordion-inner {
+        grid-template-columns: 1fr !important;
+        gap: 2rem !important;
+        padding: 1.5rem 0 1rem !important;
+    }
+
+    .accordion-trigger {
+        font-size: 1.4rem !important;
+        gap: 1rem !important;
     }
 }
+
+/* ── Hero & Metric Responsive Helper Classes ── */
+.hero-container {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 6rem;
+    align-items: center;
+}
+
+@media (max-width: 1024px) {
+    .hero-container {
+        grid-template-columns: 1fr;
+        gap: 4rem;
+        text-align: center;
+    }
+    .hero-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .bento-card {
+        grid-column: span 12 !important;
+        padding: 1.5rem !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .metric-bento-card {
+        --metric-cols: 1fr !important;
+    }
+}
+
 
 @keyframes fadeInMenu {
     from { opacity: 0; transform: translateY(-15px); }
     to { opacity: 1; transform: translateY(0); }
 }
+
+/* ── STATISTICS CARDS (replaces charts) ───────────────────────────── */
+.bento-card.card-light {
+    background: #f2efe8 !important;
+    color: #1a1a1a !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 240px;
+}
+.bento-card.card-light h1,
+.bento-card.card-light h2,
+.bento-card.card-light h3,
+.bento-card.card-light h4,
+.bento-card.card-light span,
+.bento-card.card-light div {
+    color: #1a1a1a !important;
+}
+.bento-card.card-light::before {
+    background: radial-gradient(800px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(168, 23, 48, 0.07), transparent 40%) !important;
+}
+.bento-card.card-light:hover {
+    border-color: rgba(168, 23, 48, 0.3) !important;
+    box-shadow: 0 16px 48px rgba(168, 23, 48, 0.1) !important;
+}
+
+.bento-card.card-dark {
+    background: rgba(255, 255, 255, 0.015) !important;
+    color: #f0ece5 !important;
+    border: 1px solid rgba(255, 255, 255, 0.04) !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 240px;
+}
+.bento-card.card-dark h1,
+.bento-card.card-dark h2,
+.bento-card.card-dark h3,
+.bento-card.card-dark h4,
+.bento-card.card-dark span,
+.bento-card.card-dark div {
+    color: #f0ece5 !important;
+}
+
+.bento-card.card-brand {
+    background: var(--accent-color) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(168, 23, 48, 0.3) !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 240px;
+}
+.bento-card.card-brand h1,
+.bento-card.card-brand h2,
+.bento-card.card-brand h3,
+.bento-card.card-brand h4,
+.bento-card.card-brand span,
+.bento-card.card-brand div {
+    color: #ffffff !important;
+}
+.bento-card.card-brand::before {
+    background: radial-gradient(800px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(255, 255, 255, 0.15), transparent 40%) !important;
+}
+.bento-card.card-brand:hover {
+    border-color: rgba(255, 255, 255, 0.4) !important;
+    box-shadow: 0 16px 48px rgba(168, 23, 48, 0.4) !important;
+}
+
+.bento-card .tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    opacity: .55;
+    font-weight: 500;
+    margin-bottom: auto;
+}
+.bento-card.card-brand .tag {
+    opacity: .75;
+}
+
+.bento-card .big-num {
+    font-family: var(--font-heading);
+    font-size: 72px;
+    font-weight: 900;
+    line-height: .95;
+    letter-spacing: -.03em;
+    margin: auto 0 .3rem;
+}
+@media (max-width: 768px) {
+    .bento-card .big-num {
+        font-size: 56px !important;
+    }
+}
+.bento-card .big-num .suffix {
+    font-size: 42px;
+    font-weight: 800;
+    vertical-align: super;
+    line-height: 0;
+}
+@media (max-width: 768px) {
+    .bento-card .big-num .suffix {
+        font-size: 28px !important;
+    }
+}
+
+.bento-card .label-main {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.25;
+    margin-bottom: .2rem;
+    text-transform: uppercase;
+}
+.bento-card .label-sub {
+    font-family: var(--font-body);
+    font-size: 12px;
+    opacity: .6;
+    line-height: 1.4;
+}
+.bento-card.card-brand .label-sub {
+    opacity: .85;
+}
+
+.bento-card .arrow-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    border: 1.5px solid currentColor;
+    border-radius: 20px;
+    padding: 4px 10px;
+    width: fit-content;
+    opacity: .8;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    margin-top: 1rem;
+    transition: var(--transition);
+}
+.bento-card .arrow-tag:hover {
+    background: currentColor;
+    color: #f2efe8 !important;
+}
+
+.bento-card .burst {
+    position: absolute;
+    right: -10px;
+    top: -10px;
+    width: 54px;
+    height: 54px;
+    opacity: .9;
+    z-index: 1;
+}
+
+.bento-card .italic-line {
+    font-style: italic;
+    font-size: 13px;
+    opacity: .55;
+    line-height: 1.4;
+    margin-top: .5rem;
+}
+
+
 

@@ -87,154 +87,10 @@ const initAccordion = () => {
     });
 };
 
-// Chart.js Initialization
-const initCharts = () => {
-    const lineCtx = document.getElementById('lineChart');
-    const barCtx = document.getElementById('barChart');
 
-    if (lineCtx) {
-        const years = ['2024','2025','2026','2027','2028','2029','2030','2031','2032','2033','2034','2035'];
-        const sinIA = [18, 22, 27, 33, 39, 46, 52, 56, 58, 60, 61, 62];
-        const conIA = [8, 8, 9, 9, 10, 10, 11, 11, 12, 12, 12, 12];
-
-        new Chart(lineCtx, {
-            type: 'line',
-            data: {
-                labels: years,
-                datasets: [
-                    {
-                        label: 'Sin IA',
-                        data: sinIA,
-                        borderColor: '#a81730',
-                        backgroundColor: 'rgba(168,23,48,0.08)',
-                        borderWidth: 2.5,
-                        pointBackgroundColor: '#a81730',
-                        pointRadius: 4,
-                        pointHoverRadius: 6,
-                        fill: true,
-                        tension: 0.4
-                    },
-                    {
-                        label: 'Con IA adoptada',
-                        data: conIA,
-                        borderColor: '#1D9E75',
-                        backgroundColor: 'rgba(29,158,117,0.06)',
-                        borderWidth: 2.5,
-                        pointBackgroundColor: '#1D9E75',
-                        pointRadius: 4,
-                        pointHoverRadius: 6,
-                        borderDash: [6,3],
-                        fill: true,
-                        tension: 0.4
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false },
-                    tooltip: {
-                        callbacks: {
-                            label: ctx => ' ' + ctx.dataset.label + ': ' + ctx.parsed.y + '%'
-                        }
-                    }
-                },
-                scales: {
-                    y: {
-                        min: 0, max: 75,
-                        ticks: {
-                            callback: v => v + '%',
-                            font: { size: 11 },
-                            color: '#888780'
-                        },
-                        grid: { color: 'rgba(136,135,128,0.15)' },
-                        border: { dash: [4,4] }
-                    },
-                    x: {
-                        ticks: {
-                            font: { size: 11 },
-                            color: '#888780',
-                            autoSkip: false,
-                            maxRotation: 0
-                        },
-                        grid: { display: false }
-                    }
-                }
-            }
-        });
-    }
-
-    if (barCtx) {
-        const professions = [
-            'Auxiliar administrativo',
-            'Cajero bancario',
-            'Operador de datos',
-            'Diseñador gráfico básico',
-            'Agente de seguros',
-            'Contable básico',
-            'Paralegal',
-            'Analista financiero',
-            'Periodista generalista',
-            'Especialista marketing'
-        ];
-        const risks = [90, 87, 85, 77, 73, 70, 65, 58, 52, 44];
-        const colors = risks.map(r =>
-            r >= 80 ? '#a81730' :
-            r >= 65 ? '#EF9F27' :
-            r >= 50 ? '#BA7517' : '#1D9E75'
-        );
-
-        new Chart(barCtx, {
-            type: 'bar',
-            data: {
-                labels: professions,
-                datasets: [{
-                    label: 'Riesgo de obsolescencia',
-                    data: risks,
-                    backgroundColor: colors,
-                    borderRadius: 4,
-                    borderSkipped: false
-                }]
-            },
-            options: {
-                indexAxis: 'y',
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false },
-                    tooltip: {
-                        callbacks: {
-                            label: ctx => ' Riesgo: ' + ctx.parsed.x + '%'
-                        }
-                    }
-                },
-                scales: {
-                    x: {
-                        min: 0, max: 100,
-                        ticks: {
-                            callback: v => v + '%',
-                            font: { size: 11 },
-                            color: '#888780'
-                        },
-                        grid: { color: 'rgba(136,135,128,0.15)', borderDash: [4,4] }
-                    },
-                    y: {
-                        ticks: {
-                            font: { size: 11 },
-                            color: '#5F5E5A'
-                        },
-                        grid: { display: false }
-                    }
-                }
-            }
-        });
-    }
-};
 
 // Initialize everything on load
 const initAll = () => {
-    initCharts();
     initMouseGlow();
     initAccordion();
 
@@ -288,7 +144,7 @@ const initAll = () => {
         });
     }, observerOptions);
 
-    document.querySelectorAll('.glass, .bento-card, canvas').forEach(el => {
+    document.querySelectorAll('.glass, .bento-card').forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(20px)';
         el.style.transition = 'all 0.6s ease-out';
