@@ -986,5 +986,25 @@ footer {
     margin-top: .5rem;
 }
 
+.bento-card .card-source {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    opacity: .4;
+    margin-top: 0.8rem;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.bento-card.card-brand .card-source {
+    opacity: .65;
+}
+
+.bento-card:hover .card-source {
+    opacity: .7;
+}
+
+
 
 
