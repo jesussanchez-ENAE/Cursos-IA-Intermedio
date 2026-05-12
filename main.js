@@ -1,12 +1,101 @@
-// Navbar scroll effect
-window.addEventListener('scroll', () => {
+// Dynamic Scroll Effects (Viewport top and bottom gradient blur masks)
+const initScrollEffects = () => {
     const nav = document.querySelector('.nav');
-    if (window.scrollY > 50) {
-        nav.classList.add('scrolled');
-    } else {
-        nav.classList.remove('scrolled');
+    
+    // 1. Inject the viewport edge blur overlays dynamically if they don't exist
+    if (!document.querySelector('.scroll-blur-mask')) {
+        const topMask = document.createElement('div');
+        topMask.className = 'scroll-blur-mask scroll-blur-mask-top';
+        
+        const bottomMask = document.createElement('div');
+        bottomMask.className = 'scroll-blur-mask scroll-blur-mask-bottom';
+        
+        document.body.appendChild(topMask);
+        document.body.appendChild(bottomMask);
     }
-});
+
+    // 2. Cache section offsets and background colors to prevent layout thrashing on scroll
+    let sectionsCache = [];
+    const cacheSections = () => {
+        const sections = document.querySelectorAll('header, section, footer');
+        sectionsCache = Array.from(sections).map(sec => {
+            const style = window.getComputedStyle(sec);
+            let bg = style.backgroundColor;
+            
+            // Resolve transparent background or gradient fallbacks
+            if (!bg || bg === 'rgba(0, 0, 0, 0)' || bg === 'transparent') {
+                const isLight = sec.classList.contains('section-light') || sec.style.background.includes('#f2efe8');
+                bg = isLight ? '#f2efe8' : '#000000';
+            }
+            
+            return {
+                el: sec,
+                bg: bg
+            };
+        });
+    };
+
+    // Initialize cache and update on resize/load to keep offsets perfect
+    cacheSections();
+    window.addEventListener('resize', cacheSections, { passive: true });
+    window.addEventListener('load', cacheSections, { passive: true });
+
+    // 3. Main scroll execution
+    const handleScroll = () => {
+        const scrollY = window.scrollY;
+        const windowHeight = window.innerHeight;
+        
+        // A. Toggle sticky navbar scrolling style
+        if (nav) {
+            if (scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        }
+        
+        // B. Dynamic Background-Color Matching for Edge Overlays
+        // Calculate vertical positions corresponding to the middle of the top and bottom masks
+        const topPoint = scrollY + 40;
+        const bottomPoint = scrollY + windowHeight - 40;
+        
+        let topBg = '#000000';
+        let bottomBg = '#000000';
+        
+        // Find matching background colors from cached offsets
+        for (let i = 0; i < sectionsCache.length; i++) {
+            const sec = sectionsCache[i];
+            const elTop = sec.el.offsetTop;
+            const elBottom = elTop + sec.el.offsetHeight;
+            
+            if (topPoint >= elTop && topPoint <= elBottom) {
+                topBg = sec.bg;
+            }
+            if (bottomPoint >= elTop && bottomPoint <= elBottom) {
+                bottomBg = sec.bg;
+            }
+        }
+        
+        // Seamlessly update CSS variables
+        document.documentElement.style.setProperty('--mask-bg-top', topBg);
+        document.documentElement.style.setProperty('--mask-bg-bottom', bottomBg);
+    };
+    
+    // Performance optimization: throttle scroll updates with requestAnimationFrame
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                handleScroll();
+                ticking = false;
+            });
+            ticking = true;
+        }
+    }, { passive: true });
+    
+    // Trigger initially
+    handleScroll();
+};
 
 // Smooth scroll for navigation links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -91,6 +180,7 @@ const initAccordion = () => {
 
 // Initialize everything on load
 const initAll = () => {
+    initScrollEffects();
     initMouseGlow();
     initAccordion();
 

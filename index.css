@@ -1005,6 +1005,46 @@ footer {
     opacity: .7;
 }
 
+/* ── Viewport Scroll Edge Blur Masks ────────────────────────────────── */
+:root {
+    --mask-bg-top: #000000;
+    --mask-bg-bottom: #000000;
+}
+
+.scroll-blur-mask {
+    position: fixed;
+    left: 0;
+    width: 100%;
+    z-index: 90; /* Sits beneath navbar (z-index 100) but above content */
+    pointer-events: none; /* Allows interaction under the mask */
+    will-change: background-color, backdrop-filter;
+    transition: background-color 0.3s ease; /* Smooth fade when crossing dark/light sections */
+}
+
+.scroll-blur-mask-top {
+    top: 0;
+    height: 140px;
+    background: linear-gradient(to bottom, var(--mask-bg-top) 30%, transparent 100%);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    
+    /* Progressive blur fade using CSS masks */
+    -webkit-mask-image: linear-gradient(to bottom, black 25%, rgba(0, 0, 0, 0.65) 55%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 25%, rgba(0, 0, 0, 0.65) 55%, transparent 100%);
+}
+
+.scroll-blur-mask-bottom {
+    bottom: 0;
+    height: 110px;
+    background: linear-gradient(to top, var(--mask-bg-bottom) 30%, transparent 100%);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    
+    /* Progressive blur fade using CSS masks */
+    -webkit-mask-image: linear-gradient(to top, black 25%, rgba(0, 0, 0, 0.65) 55%, transparent 100%);
+    mask-image: linear-gradient(to top, black 25%, rgba(0, 0, 0, 0.65) 55%, transparent 100%);
+}
+
 
 
 
